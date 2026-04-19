@@ -1,167 +1,163 @@
 # Cloudflare Pages Demo Collection
 
-这个仓库收集了几套从入门到实战的 Cloudflare Pages 示例，重点演示这几类能力：
+This repository contains a small set of Cloudflare Pages demos, from basic concepts to a blog-style practical example.
 
-- 文本变量
-- 密钥
-- KV 绑定
-- D1 绑定
+It focuses on these common Cloudflare Pages capabilities:
+
+- text variables
+- secrets
+- KV bindings
+- D1 bindings
 - Pages Functions
 
-适合用来理解 Cloudflare Pages 里最常见的几个概念，以及它们在博客场景里的实际用法。
+## Repository Structure
 
-## 仓库结构
+- `env-demo/`
+  - demonstrates text variables and secrets
+  - useful for learning how `context.env.xxx` reads normal config values and sensitive values
 
-- `变量demo/`
-  - 演示文本变量和密钥
-  - 适合先理解 `context.env.xxx` 怎么读普通配置和敏感配置
-- `绑定demo/`
-  - 演示 KV 绑定
-  - 用一个最小计数器说明“绑定”不是普通字符串，而是可操作的资源对象
-- `D1评论demo/`
-  - 演示 D1 数据库绑定
-  - 用评论写入和读取说明数据库绑定怎么用
-- `博客实战demo/`
-  - 把文本变量、密钥、KV、D1 串起来
-  - 更接近真实博客项目
+- `bindings-demo/`
+  - demonstrates a KV binding
+  - uses a simple counter to show that a binding is not just a string, but a real resource object
 
-## 推荐阅读顺序
+- `d1-comments-demo/`
+  - demonstrates a D1 database binding
+  - uses comment creation and comment listing to explain how a database binding works
 
-1. `变量demo`
-2. `绑定demo`
-3. `D1评论demo`
-4. `博客实战demo`
+- `blog-practical-demo/`
+  - combines text variables, secrets, KV, and D1 in one example
+  - closer to a real blog-style Pages project
 
-这样看下来会比较顺：
+## Recommended Order
 
-- 先理解“变量和密钥是什么”
-- 再理解“绑定是什么”
-- 再理解“数据库绑定怎么用”
-- 最后看“怎么把它们组合进一个博客”
+1. `env-demo`
+2. `bindings-demo`
+3. `d1-comments-demo`
+4. `blog-practical-demo`
 
-## 各 Demo 说明
+That order makes the learning path smoother:
 
-### 1. 变量demo
+- first understand variables and secrets
+- then understand bindings
+- then understand database bindings
+- finally see how everything fits together in one blog example
 
-目录：[`变量demo`](./变量demo)
+## Demo Overview
 
-这个示例包含：
+### 1. env-demo
 
-- `SITE_NAME`：文本变量
-- `MY_TOKEN`：密钥
+Directory: [`env-demo`](./env-demo)
 
-演示内容：
+This demo includes:
 
-- 页面调用 `/api/site` 读取文本变量
-- 页面调用 `/api/check` 演示密钥校验
+- `SITE_NAME` as a text variable
+- `MY_TOKEN` as a secret
 
-适合用来理解：
+It shows:
 
-- 文本变量适合放普通配置
-- 密钥适合放 token、API key、密码等敏感值
+- how a page calls `/api/site` to read a text variable
+- how a page calls `/api/check` to validate a secret-backed token
 
-### 2. 绑定demo
+### 2. bindings-demo
 
-目录：[`绑定demo`](./绑定demo)
+Directory: [`bindings-demo`](./bindings-demo)
 
-这个示例使用：
+This demo uses:
 
-- `COUNTER`：KV 绑定
+- `COUNTER` as a KV binding
 
-演示内容：
+It shows:
 
-- `/api/counter` 读取当前计数
-- `/api/increment` 写入并自增
+- `/api/counter` reading the current value
+- `/api/increment` updating and incrementing the counter
 
-适合用来理解：
+This is useful for understanding that:
 
-- 绑定不是字符串
-- `context.env.COUNTER` 是一个 KV 资源对象
-- 可以直接调用 `.get()` 和 `.put()`
+- a binding is not a plain string
+- `context.env.COUNTER` is a real KV resource object
+- you can call `.get()` and `.put()` on it directly
 
-### 3. D1评论demo
+### 3. d1-comments-demo
 
-目录：[`D1评论demo`](./D1评论demo)
+Directory: [`d1-comments-demo`](./d1-comments-demo)
 
-这个示例使用：
+This demo uses:
 
-- `DB`：D1 绑定
+- `DB` as a D1 binding
 
-演示内容：
+It shows:
 
-- `/api/comment` 写入评论
-- `/api/comments` 读取评论列表
+- `/api/comment` inserting a comment
+- `/api/comments` loading a comment list
 
-适合用来理解：
+This is useful for understanding:
 
-- D1 绑定怎么接入 Pages
-- `context.env.DB.prepare(...).bind(...).run()` 的基本用法
-- 评论、留言、文章元数据这类结构化数据为什么更适合数据库
+- how to attach D1 to a Pages project
+- the basic pattern of `context.env.DB.prepare(...).bind(...).run()`
+- why structured data such as comments or metadata belongs in a database
 
-### 4. 博客实战demo
+### 4. blog-practical-demo
 
-目录：[`博客实战demo`](./博客实战demo)
+Directory: [`blog-practical-demo`](./blog-practical-demo)
 
-这个示例组合了：
+This demo combines:
 
-- 文本变量
+- text variables
   - `SITE_NAME`
   - `SITE_DESCRIPTION`
   - `ADMIN_EMAIL`
-- 密钥
+- secrets
   - `ADMIN_TOKEN`
-- KV 绑定
+- KV binding
   - `VIEWS`
-- D1 绑定
+- D1 binding
   - `DB`
 
-演示内容：
+It shows:
 
-- 页面加载时读取站点配置
-- 文章阅读量通过 KV 自增
-- 评论通过 D1 读取和写入
-- 管理接口通过密钥校验保护
+- loading site config from text variables
+- updating article view counts with KV
+- reading and writing comments with D1
+- protecting an admin-style endpoint with a secret
 
-这个目录最接近真实博客项目结构。
+## Deployment
 
-## 如何部署
+Recommended approach:
 
-推荐方式：
+1. connect this repository to Cloudflare Pages
+2. choose one demo directory as the project root
+3. configure the required variables, secrets, and bindings
+4. redeploy
 
-1. 把这个仓库连接到 Cloudflare Pages
-2. 选择你要部署的某一个 demo 目录作为项目根目录
-3. 配置对应的变量、密钥和绑定
-4. 重新部署
+If you want one Pages project per demo, use these root directory values:
 
-如果你是给每个 demo 分别建一个 Pages 项目，通常这样配：
+- `env-demo`
+- `bindings-demo`
+- `d1-comments-demo`
+- `blog-practical-demo`
 
-- `变量demo`
-  - 根目录：`变量demo`
-- `绑定demo`
-  - 根目录：`绑定demo`
-- `D1评论demo`
-  - 根目录：`D1评论demo`
-- `博客实战demo`
-  - 根目录：`博客实战demo`
+## Suggested Pages Build Settings
 
-## Pages 构建设置建议
+All demos use a very simple static-files-plus-`functions/` structure.
 
-这些 demo 都是最简单的静态文件 + `functions/` 目录结构，一般这样填：
+Typical settings:
 
-- 框架预设：`无`
-- 构建命令：留空
-- 构建输出目录：`/`
-- 根目录：填写对应 demo 文件夹名
+- Framework preset: `None`
+- Build command: leave empty
+- Build output directory: `/`
+- Root directory: set it to the selected demo folder
 
-## 补充说明
+## Notes
 
-- 每个 demo 目录里都有自己的 `README.md`
-- 具体变量名、绑定名、建表 SQL 都写在各自目录里
-- 如果你只是想先跑通一个，建议从 `变量demo` 开始
+- each demo folder has its own `README.md`
+- specific variable names, binding names, and SQL setup steps are documented inside each demo folder
+- if you only want to get one example working first, start with `env-demo`
 
-## 学完这几个 demo 你会掌握什么
+## What You Will Learn
 
-- Pages 静态文件和 Pages Functions 的区别
-- 文本变量和密钥的区别
-- KV 绑定和 D1 绑定的基本用法
-- 怎么把这些能力组合成一个简单博客
+By working through these demos, you will understand:
+
+- the difference between static assets and Pages Functions
+- the difference between text variables and secrets
+- the basic usage of KV and D1 bindings
+- how to combine these features into a simple blog-style Pages project
