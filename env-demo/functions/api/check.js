@@ -7,7 +7,7 @@ export function onRequest(context) {
   }
 
   if (requestToken !== realToken) {
-    return new Response("Unauthorized", { status: 401 });
+    return new Response("Unauthorized "+requestToken, { status: 401 });
   }
 
   return new Response("密钥校验成功");
